@@ -1,0 +1,63 @@
+---
+title: "flexdashboard"
+author: "Bramack"
+date: "2024-07-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(flexdashboard)
+library(tidyverse)
+library(DT)
+library(rsconnect)
+```
+
+
+```{r}
+library(here)
+data <- read.csv(here("rdata folder","shndata.csv"))
+```
+```{r}
+# Render data table
+  output$progressTable <- renderDT({
+    datatable(project_data, options = list(pageLength = 5))
+  })
+```
+```{r}
+ # Render individual plots
+  output$progressPlot1 <- renderPlot({
+    barplot(as.numeric(project_data[1, -1]), beside = TRUE, col = "blue",
+            names.arg = colnames(project_data)[-1])
+    title(main = project_data$ProjectOutcome[1], xlab = "Quarter", ylab = "Percentage")
+  })
+```
+```{r}
+ output$progressPlot2 <- renderPlot({
+    barplot(as.numeric(project_data[2, -1]), beside = TRUE, col = "green",
+            names.arg = colnames(project_data)[-1])
+    title(main = project_data$ProjectOutcome[2], xlab = "Quarter", ylab = "Percentage")
+  })
+```
+```{r}
+output$progressPlot3 <- renderPlot({
+    barplot(as.numeric(project_data[3, -1]), beside = TRUE, col = "red",
+            names.arg = colnames(project_data)[-1])
+    title(main = project_data$ProjectOutcome[3], xlab = "Quarter", ylab = "Percentage")
+  })
+```
+```{r}
+output$progressPlot4 <- renderPlot({
+    barplot(as.numeric(project_data[4, -1]), beside = TRUE, col = "purple",
+            names.arg = colnames(project_data)[-1])
+    title(main = project_data$ProjectOutcome[4], xlab = "Quarter", ylab = "Percentage")
+  })
+}
+
+```
+
+
+

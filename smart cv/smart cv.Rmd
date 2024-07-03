@@ -1,0 +1,66 @@
+---
+name:Brian Magoma
+surname:Jomo
+position: "Attachee at NPHL"
+pronouns: He/him
+address: "School of PUBLIC HEALTH, BsC.EPIDEMIOLOGY BIOSTATISTICS"
+phone:0717259284
+www: brianjomo.com
+email: "brianjomomagoma@gmail.com"
+twitter: Bamack
+github: brianjomo
+linkedin: brianjomo
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  vitae::awesomecv:
+    page_total: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+```
+
+# Some stuff about me
+
+ * I poisoned myself doing research.
+ * I was the first man to win a Nobel prize
+ * I was the first person and only man to win a Nobel prize in Epidemiolgy Biostatistics department.
+
+# Education
+
+```{r}
+library(tibble)
+tribble(
+  ~ Degree, ~ Year, ~ Institution, ~ Where,
+  "Epidemiology Biostatistics", "2021-2025", "Kirinyaga University", "Kirinyaga, Kenya",
+  "Master of Biostatistics", "2026", "Harvad University", "Newyork City, USA",
+  "Master of Epidemiology and Global Health", "2030", "Oxford University", "London, Uk"
+) %>%
+  detailed_entries(Degree, Year, Institution, Where)
+```
+
+# Nobel Prizes
+
+```{r}
+tribble(
+  ~Year, ~Type, ~Desc,
+  1903, "Epidemilogist", "Awarded for her work on curbing the spread of pandemic with Pierre Curie and Henri Becquerel",
+  1911, "Chemistry", "Awarded for the discovery of transmission and pattern"
+) %>%
+  brief_entries(
+    glue::glue("Nobel Prize in {Type}"),
+    Year,
+    Desc
+  )
+```
+
+# Publications
+
+```{r}
+library(dplyr)
+knitr::write_bib(c("vitae", "tibble"), "packages.bib")
+
+bibliography_entries("packages.bib") %>%
+  arrange(desc(author$family), issued)
+```

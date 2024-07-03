@@ -1,0 +1,41 @@
+---
+title: "value boxes"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: row
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+rows {data-width=650}
+-----------------------------------------------------------------------
+
+### Articles per day
+
+```{r}
+articles<-computeArticles()
+valueBox(articles, icon = "fa-pencil")
+```
+
+rows {data-width=350}
+-----------------------------------------------------------------------
+
+### comments per day
+
+```{r}
+comments<-computeComments()
+valueBox(comments, icon = "fa-comments")
+```
+
+### spam per day
+
+```{r}
+spam<-computeSpam()
+valueBox(spam,
+         icon = "fa-trash",
+         color = ifelse(spam>10, "warning", "primary"))
+```
+

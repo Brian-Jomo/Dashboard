@@ -1,0 +1,18 @@
+---
+title: "SURVIVAL ANALYSIS"
+author: "Bramack"
+date: "2024-06-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+SURVIVAL ANALYSES
+- It is concerned with time to event analysis  i.e time from chemotherapy to tumor 
+recurrence.
+
+```
+

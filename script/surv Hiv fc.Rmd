@@ -1,0 +1,76 @@
+---
+title: "Survival Analysis"
+author: "Bramack"
+date: "2024-06-21"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# load packages
+library(tidyverse)
+library(here)
+library(survival)
+library(survminer)
+```{r}
+```
+# read data
+data<-read.csv(here("rdata folder","survdatao.csv"))
+```{r}
+```
+# print the first few rows of the data
+head(data)
+```{r}
+```
+#convert data columns to data type
+data$DOB<-as.Date(data$DOB,format="%Y-%m-%d")
+data$StartArtDate<-as.Date(data$S.ART.D,format="%Y-%m-%D")
+data$Dateconfirmedhivpositive<-as.Date(data$D.C.HIV.P,format="%Y-%m-%d")
+data$dispense_date<-as.Date(data$DispenseDate,format="%Y-%m-%d")
+data$exit_date<-as.Date(data$ExitDate,format="%Y-%m-%D")
+```{r}
+```
+# Ensure data is correctly formatted
+str(data)
+```{r}
+```
+#create time and status variable for survival analysis
+data$time<-as.numeric(difftime(data$ExitDate,data$S.ART.D,units="days"))
+data$status<-ifelse(is.na(data$ExitDate),0,1)
+
+```{r}
+```
+#print the first few rows to check the new column
+head(data)
+```{r}
+```
+# create a survival object
+surv_object<-Surv(time=data$time,event=data$status)
+
+```{r}
+```
+#Fit a kaplan meier survival curve
+fit<-survfit(surv_object~1,data=data)
+```{r}
+```
+#print the summary of the fit
+summary(fit)
+
+```{r}
+```
+#plot the survival curve
+ggsurvplot(fit,data=data,xlab="Time(days)",ylab="survival probability",
+           title="Kaplan Meier Survival Curve",
+           ggtheme=theme_minimal())
+
+```{r}
+```
+# plot visualisation
+image_read(here("rbramack","survplot.png"))
+
+
+
+```{r}

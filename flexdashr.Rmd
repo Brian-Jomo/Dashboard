@@ -1,0 +1,66 @@
+---
+title: "flexdashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: column
+    vertical_layout: scroll
+    source_code: embed
+    css: styles.css
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(here)
+library(tidyverse)
+library(DT)
+
+
+```
+
+column {data-width=300}
+-----------------------------------------------------------------------
+
+
+### project_data
+
+```{r paged.print=TRUE}
+project_data <-read.csv(here("rdata folder", "shndata.csv"))
+DT::datatable(project_data, options = list(bpaginate=FALSE))
+```
+
+### Annual HIV cohort reports generated for 47 counties
+
+```{r, fig.width=10, fig.height=7}
+barplot(as.numeric(project_data[1, -1]), beside = TRUE, col = "blue",
+        names.arg = colnames(project_data)[-1])
+title(main = project_data$ProjectOutcome[1], xlab = "Quarter", ylab = "Percentage")
+```
+
+column {data-width=300}
+-----------------------------------------------------------------------
+
+### National DQA reports for 47 counties
+
+```{r, fig.width=10, fig.height=7}
+barplot(as.numeric(project_data[2, -1]), beside = TRUE, col = "green",
+        names.arg = colnames(project_data)[-1])
+title(main = project_data$ProjectOutcome[2], xlab = "Quarter", ylab = "Percentage")
+```
+
+### County-specific DQA/DQI reports for HIV programs
+
+```{r, fig.width=10, fig.height=7}
+barplot(as.numeric(project_data[3, -1]), beside = TRUE, col = "red",
+        names.arg = colnames(project_data)[-1])
+title(main = project_data$ProjectOutcome[3], xlab = "Quarter", ylab = "Percentage")
+```
+
+### Enhanced skills and capabilities in surveillance units
+
+```{r, fig.width=10, fig.height=7}
+barplot(as.numeric(project_data[4, -1]), beside = TRUE, col = "purple",
+        names.arg = colnames(project_data)[-1])
+title(main = project_data$ProjectOutcome[4], xlab = "Quarter", ylab = "Percentage")
+```
+
+

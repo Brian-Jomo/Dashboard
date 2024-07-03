@@ -1,0 +1,58 @@
+---
+title: "SIR MODEL"
+author: "Bramack"
+date: "2024-06-12"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library(dplyr)
+library(deSolve)
+library(ggplot2)
+library(pomp)
+```
+
+```{r}
+sir_model<-function(time,state,parameters){
+  with(as.list(c(state,parameters))),{
+    #Differential equations
+    ds<--beta*S*I/N
+    dI<-beta*S*I/N-gamma*I
+    dR<-gamma*I
+    #Return the rate of change
+    list(c(dS,dI,dR))}
+  }
+}
+```
+
+```{r}
+# Initial state values
+initial_state<-c(S=999,I=1,R=0)
+# parameters:beta=transmission rate,gamma=recovery rate
+parameters<-c(beta=0.3,gamma=0.1)
+# Total population
+N<-sum(initial_state)
+# Time steps
+times<-seq(0,160,by=1)
+```
+
+```{r}
+output<-ode(y=initial_state,times=times,func=sir_model,parms=parameters)
+```
+```{r}
+# convert output to a dataframe
+output<-as.data.frame(output)
+# plot the results
+plot(output$time,output$S,type="I",col="blue",ylim=c(0,N),xlab="Time",ylab="population",lwd=2)
+lines(output$time,output$I,col="red",lwd=2)
+lines(output$time,output$R,col="green",lwd=2)
+legend("right",legend=c("Susceptible", "Infectious", "Recovered"),col="blue","red","green"),lwd=2)
+```
+
+
